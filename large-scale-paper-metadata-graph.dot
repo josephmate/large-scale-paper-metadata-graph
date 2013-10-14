@@ -10,14 +10,17 @@ graph_replication -> graph_dbs
 
 /* papers to topics */
 schism -> databases
-dag_t_wt -> databases
+dag_wt_t -> databases
 sedge -> graph_replication
 sedge -> graph_partitioning
+spar -> graph_replication
+spar -> graph_partitioning
 
 /* descriptions to papers */
 schism_desc -> schism
-dag_t_wt_desc -> dag_t_wt
+dag_wt_t_desc -> dag_wt_t
 sedge_desc -> sedge
+spar_desc -> spar
 
 node [shape=box]; 
 /* top level nodes */
@@ -34,14 +37,49 @@ graph_replication [label="Graph Replication"]
 
 /* paper nodes */
 node [shape=circle]; 
-schism [label="Machine Learned Distributed Transaction Partitioning"]
-dag_t_wt [label="DAG(T)/(TW) Replication Strategy"]
-sedge[label="Local Semantics (1-hop neighbours local)"]
+schism [label="Schism"]
+dag_wt_t [label="DAG(WT)/(T) Replication Strategy"]
+sedge[label="SEDGE: Complimentary Partitions\nand Dynamic Workload Partitions"]
+spar[label="SPAR: Local Semantics\n(1-hop neighbours local)"]
 
 /* description of paper nodes */
-schism_desc [label="Machine Learned Distributed Transaction Partitioning"]
-dag_t_wt_desc [label="DAG(T)/(TW) Replication Strategy"]
-sedge_desc[label="Local Semantics (1-hop neighbours local)"]
+schism_desc [label=
+    "assume: distd txn are short lived\n"
+  + "problem: distd txn increase deadlocks increase latency\n"
+  + "soln: build graph where node is row edge between each \n"
+  + "      in the same txn.\n"
+  + "      mimimize edge cut\n"
+  + "      have decision tree learn partitioning\n"
+  ]
+
+dag_wt_t_desc [label=
+    "problem: replication\n"
+  + "  eager:  causes increased deadlocks\n"
+  + "  lazy: is not 1 copy-serializable\n"
+  + "soln: \n"
+  + "  DAG(WT): send updates to your child in tree of copy graph\n"  
+  + "  DAG(T): use timestamp and update msgs to guarentee total\n"  
+  + "          ordering on updates"
+  + "  Backedge: <NEED TO RE-READ"  
+  ]
+
+spar_desc[label=
+    "Optimized for the social network use case\n"
+  + "assume: most queries are 1 hop"
+  + "problem: network hops over partition boundary\n"
+  + "soln:  replicating so everything is local"
+  ]
+
+sedge_desc[label=
+    "assume: large queries\n"
+  + "problem: hits partition boundaries many times\n"
+  + "soln: for graph, create multiple copies where\n"
+  + "      partitioning does not overlap\n"
+  + "      Also, create dynamic partitions based\n"
+  + "      workload patterns\n"
+  + "      Queries processed on copy least likely\n"
+  + "      to cause network hops."
+  ]
 
 } 
 
