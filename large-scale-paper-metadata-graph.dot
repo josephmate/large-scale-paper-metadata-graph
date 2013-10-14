@@ -1,0 +1,47 @@
+digraph large_scale_paper_metadata {
+/* graph properties */
+graph [label_scheme=1];
+
+/* edges */
+
+/* topic hiearchy */
+graph_partitioning -> graph_dbs
+graph_replication -> graph_dbs
+
+/* papers to topics */
+schism -> databases
+dag_t_wt -> databases
+sedge -> graph_replication
+sedge -> graph_partitioning
+
+/* descriptions to papers */
+schism_desc -> schism
+dag_t_wt_desc -> dag_t_wt
+sedge_desc -> sedge
+
+node [shape=box]; 
+/* top level nodes */
+databases[label="Databases"]
+graph_dbs[label="Graph Databases"]
+dfs[label="Distributed File Systems"]
+distributed_algos[label="distributed Algorithms"]
+
+/* 2nd level topics */ 
+
+/* graph databases */
+graph_partitioning [label="Graph Partitioning"]
+graph_replication [label="Graph Replication"]
+
+/* paper nodes */
+node [shape=circle]; 
+schism [label="Machine Learned Distributed Transaction Partitioning"]
+dag_t_wt [label="DAG(T)/(TW) Replication Strategy"]
+sedge[label="Local Semantics (1-hop neighbours local)"]
+
+/* description of paper nodes */
+schism_desc [label="Machine Learned Distributed Transaction Partitioning"]
+dag_t_wt_desc [label="DAG(T)/(TW) Replication Strategy"]
+sedge_desc[label="Local Semantics (1-hop neighbours local)"]
+
+} 
+
