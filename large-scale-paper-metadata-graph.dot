@@ -15,19 +15,24 @@ sedge -> graph_replication
 sedge -> graph_partitioning
 spar -> graph_replication
 spar -> graph_partitioning
+map_reduce -> computational_model
+hdfs -> dfs
+hdfs -> map_reduce
 
 /* descriptions to papers */
 schism_desc -> schism
 dag_wt_t_desc -> dag_wt_t
 sedge_desc -> sedge
 spar_desc -> spar
+map_reduce_desc -> map_reduce
+hdfs_desc -> hdfs
 
 node [shape=box]; 
 /* top level nodes */
 databases[label="Databases"]
 graph_dbs[label="Graph Databases"]
 dfs[label="Distributed File Systems"]
-distributed_algos[label="distributed Algorithms"]
+computational_model[label="Computational Model"]
 
 /* 2nd level topics */ 
 
@@ -41,6 +46,8 @@ schism [label="Schism"]
 dag_wt_t [label="DAG(WT)/(T) Replication Strategy"]
 sedge[label="SEDGE: Complimentary Partitions\nand Dynamic Workload Partitions"]
 spar[label="SPAR: Local Semantics\n(1-hop neighbours local)"]
+map_reduce[label="MapReduce"]
+hdfs[label="Hadoop Distributed Filesystem"]
 
 /* description of paper nodes */
 schism_desc [label=
@@ -80,6 +87,26 @@ sedge_desc[label=
   + "      Queries processed on copy least likely\n"
   + "      to cause network hops."
   ]
+
+map_reduce_desc[label=
+    "problem: writing distributed code is difficult\n"
+  + "soln: express problem in terms of map reduce\n"
+  + "  map: M splits of data run on M worker processes \n"
+  + "       user code maps data to key,value\n"
+  + "  reduce: R work processes copy M*R partitions, sort, groups by key \n"
+  + "          user code take key and grouped value and produces a result"
+  ]
+
+hdfs_desc[label=
+    "soln: data split into ~128MB blocks\n"
+  + "  namenode: keeps fs heiarchy in memory\n"
+  + "            keeps inode -> blocks in memory\n"
+  + "    connects clients to datanodes to read and write blocks"
+  + "  datanode: receives blocks from clients\n"
+  + "    in pipeline, forwards data to replicas"
+  ]
+
+
 
 } 
 
