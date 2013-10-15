@@ -5,6 +5,11 @@ graph [label_scheme=1];
 /* edges */
 
 /* topic hiearchy */
+databases -> datastore
+dfs -> datastore
+kv_store -> datastore
+graph_dbs -> datastore
+
 graph_partitioning -> graph_dbs
 graph_replication -> graph_dbs
 
@@ -17,7 +22,15 @@ spar -> graph_replication
 spar -> graph_partitioning
 map_reduce -> computational_model
 hdfs -> dfs
-hdfs -> map_reduce
+gfs -> dfs
+big_table -> kv_store
+
+/* papers to papers */
+map_reduce -> dfs[label=
+  "for durable storage\n"
+  + "and parallel reads"
+  ]
+big_table -> gfs[label="for durable available storage"]
 
 /* descriptions to papers */
 schism_desc -> schism
@@ -26,13 +39,21 @@ sedge_desc -> sedge
 spar_desc -> spar
 map_reduce_desc -> map_reduce
 hdfs_desc -> hdfs
+gfs_desc -> gfs
+big_table -> big_table_desc
+
+
 
 node [shape=box]; 
+
+datastore[label="Datastores: put data, get data, update data"]
+
 /* top level nodes */
-databases[label="Databases"]
+databases[label="Relational Databases"]
 graph_dbs[label="Graph Databases"]
 dfs[label="Distributed File Systems"]
 computational_model[label="Computational Model"]
+kv_store[label="Key Value Store"]
 
 /* 2nd level topics */ 
 
@@ -48,6 +69,8 @@ sedge[label="SEDGE: Complimentary Partitions\nand Dynamic Workload Partitions"]
 spar[label="SPAR: Local Semantics\n(1-hop neighbours local)"]
 map_reduce[label="MapReduce"]
 hdfs[label="Hadoop Distributed Filesystem"]
+gfs[label="Google File System"]
+big_table[label="Big Table"]
 
 /* description of paper nodes */
 schism_desc [label=
@@ -107,6 +130,17 @@ hdfs_desc[label=
   ]
 
 
+gfs_desc[label="similar to HDFS. to lazy to type"]
+
+big_table_desc[label=
+    "D9d sorted map built using a d9d B+-tree and using a d9d lock\n"
+  + "for master selection and worker discovery. Has 'column families'\n"
+  + "of a row stored seperately to optimize queries that work on a single fam"
+  ]
 
 } 
+
+
+
+
 
