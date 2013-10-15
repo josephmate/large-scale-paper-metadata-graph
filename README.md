@@ -4,7 +4,7 @@ Graph that attempts to summarize the state of large scale data management. I am 
 
 # How to use it
 ## Waiting patiently
-I will occasionally publish a .pdf file to git repository when I get a chance.
+I will occasionally publish a .png file to git repository when I get a chance.
 ## I can't wait anymore
 * get graphviz
 * get the latest JDK
