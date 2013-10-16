@@ -24,6 +24,9 @@ map_reduce -> computational_model
 hdfs -> dfs
 gfs -> dfs
 big_table -> kv_store
+dynamo -> kv_store
+dynamo -> merkle_tree
+dynamo -> consistent_hashing
 
 /* papers to papers */
 map_reduce -> dfs[label=
@@ -41,6 +44,9 @@ map_reduce_desc -> map_reduce
 hdfs_desc -> hdfs
 gfs_desc -> gfs
 big_table -> big_table_desc
+dynamo -> dynamo_desc
+merkle_tree -> merkle_tree_desc
+consistent_hashing -> consistent_hashing_desc
 
 
 
@@ -71,6 +77,9 @@ map_reduce[label="MapReduce"]
 hdfs[label="Hadoop Distributed Filesystem"]
 gfs[label="Google File System"]
 big_table[label="Big Table"]
+dynamo[label="Dynamo"]
+merkle_tree[label="Merkle Trees (Merkle '88)"]
+consistent_hashing[label="Consistent Hashing (Karger '97)"]
 
 /* description of paper nodes */
 schism_desc [label=
@@ -138,9 +147,43 @@ big_table_desc[label=
   + "of a row stored seperately to optimize queries that work on a single fam"
   ]
 
+dynamo_desc[label=
+    "Consistent Hashing (CH) (partitioning) and Preference List (replication)\n"
+  + "Uses CH, with two modificaiton. First instead of host mapping to circle,\n"
+  + "a single host maps mulitple virtual nodes (for distributing load). 2nd,\n"
+  + "k is not just belong to nj when between hash(nj-1) and hash(nj). It belongs\n"
+  + "to all node inbetween hash(n(j-n)) to hash(nj). This is the 'preference list'\n"
+  + "For key k, will have a 'preference list' of N replicas.\n"
+  + "Hinted handoff and sloppy quorum\n"
+  + "Write req can go to any of the N nodes that have the data. Forwarded to the\n"
+  + "first N healthy nodes (sloppy quorum). Wait for W-1 responses. If N nodes not\n"
+  + "in preference list, do 'hinted handoff' to those nodes and write intended dest.\n"
+  + "hinted handoff host will eventually give it to intended destination.\n"
+  + "Merkle Trees - Anti entropy\n"
+  + "When writes cause sibling versions, merkle trees are used to discover them and\n"
+  + "combine them.\n"
+  + "Write buffer (decrease dura for decrease laten )\n"
+  + "write to W-1 nodes, into memory but only 1 is a durable write. just wait for "
+  + "response from all, no need to wait for the durabile write."
+  ]
+
+
+merkle_tree_desc[label=
+    "leaves are the hashes of values, parents are the hashes of concat of children's hashes\n"
+  + "can determine if two trees differnt O(1) by looking at root\n"
+  + "can find single difference in O( lg (num_of_values) ) time\n"
+  ]
+
+consistent_hashing_desc[label=
+  "take hashing functions range and have it loop back to the first value at the end\n"
+  + "map host_id and key onto the circle. all keys that hash inbetween hash(h1) \n"
+  + "and hash(h2) belong to h2. (Without lost of generality hash(h1) < hash(h2))\n"
+  ]
+
+
+
+
+
+
 } 
-
-
-
-
 
